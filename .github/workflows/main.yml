@@ -3,7 +3,7 @@ on:
   push:
     branches:
       - develop
-      - master
+      - main
 env:
   ENV: demo
   ECS_CLUSTER_NAME: node-js

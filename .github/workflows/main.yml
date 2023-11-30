@@ -7,7 +7,7 @@ on:
 env:
   ENV: demo
   ECS_CLUSTER_NAME: node-js
-  ECS_SERVICE_NAME: node-js
+  ECS_SERVICE_NAME: node
 
 jobs:
   build-and-push:

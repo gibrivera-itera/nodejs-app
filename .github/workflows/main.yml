@@ -29,7 +29,7 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
-        
+
     - name: Login to Amazon ECR
       uses: aws-actions/amazon-ecr-login@v1
 
@@ -54,7 +54,7 @@ jobs:
       run: |
         IMAGE=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_DEFAULT_REGION }}.amazonaws.com/nodejs-app:$ENV-${GITHUB_SHA}
         TD_ARN=$(aws ecs describe-services --services $ECS_SERVICE_NAME --cluster $ECS_CLUSTER_NAME --query 'services[0].taskDefinition' | tr -d '"' )    
-        apt install -y jq
+        sudo apt install -y jq
         aws ecs describe-task-definition --task-definition $TD_ARN --query 'taskDefinition' --output json > td-tmp.json
         jq ".containerDefinitions |= map(if .name == \"shop\" then .image = \"$IMAGE\" else . end) | del(.revision, .status , .compatibilities ,.taskDefinitionArn ,.requiresAttributes ,.registeredAt, .registeredBy)" td-tmp.json > td.json
         cat td.json
